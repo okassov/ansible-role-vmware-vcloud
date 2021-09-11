@@ -1,0 +1,23 @@
+---
+
+- name: vCloudDirectorAnsible
+  hosts: localhost
+  environment:
+    env_user: "{{ lookup('env', 'ANSIBLE_VAR_vcd_user') }}"
+    env_password: "{{ lookup('env', 'ANSIBLE_VAR_vcd_password') }}"
+    env_host: "https://qc30-cloud.qazcloud.kz/"
+    env_org: "KT-B2C"
+    #env_api_version: 33.0
+    env_verify_ssl_certs: true
+  vars_files:
+    - ../env-global.yaml
+    - init-script.yaml
+    - virtual-machines.yaml
+  vars:
+    vcd_vm_template_name: "test-packer-template" 
+    vcd_vm_template_vm_name: "test-packer"
+    vcd_vm_deploy_vdc: "vdc-KT-B2C"
+    vcd_vm_root_password: "root"    
+    app: "mongodb"
+  roles:
+    - role: vmware-vcloud

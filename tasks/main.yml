@@ -1,0 +1,58 @@
+---
+
+- name: 'deploy VM | Create vApp Virtual Machines from template'
+  vcd_vapp_vm:
+    target_vm_name: "{{ item.vm_name }}"
+    target_vapp: "{{ item.vapp }}"
+    source_vdc: "{{ vcd_vm_template_vdc }}"
+    target_vdc: "{{ vcd_vm_deploy_vdc }}"
+    metadata:
+      env: "{{ env }}"
+      project: "{{ project }}"
+      role: "{{ role }}"
+      app: "{{ app }}"
+    source_catalog_name: "{{ vcd_vm_template_catalog_name }}"
+    source_template_name: "{{ vcd_vm_template_name }}"
+    source_vm_name: "{{ vcd_vm_template_vm_name }}"
+    hostname: "{{ item.vm_name }}"
+    vmpassword: "{{ vcd_vm_root_password }}"
+    vmpassword_auto: "false"
+    vmpassword_reset: "false"
+    ip_allocation_mode: "{{ item.ip_allocation_mode }}"
+    power_on: "{{ item.power_on }}"
+    all_eulas_accepted: "true"
+    storage_profile: "{{ item.storage_profile }}"
+    network: "{{ item.network }}"
+    cust_script: "{{ initial_script }}"
+    deploy: false
+    state: "{{ item.state }}"
+  loop: "{{ vcd_virtual_machines }}"
+
+- name: 'deploy disk | Add a external data disk'
+  vcd_disk:
+    disk_name: "{{ env }}-{{ project }}-{{ app }}-{{ item.vm_name }}"
+    description: "Data disk {{ item.vm_name }}"
+    size: "{{ item.disk.size }}"
+    vdc: "{{ vcd_vm_deploy_vdc }}"
+    storage_profile: "{{ item.disk.storage_profile }}"
+    state: "{{ item.disk.state }}"
+  when: item.disk is defined
+  loop: "{{ vcd_virtual_machines }}"
+  register: disk_output
+
+- name: 'deploy nic | Create vApp VM network interface card'
+  vcd_vapp_vm_nic:
+    vm_name: "{{ item.vm_name }}"
+    vapp: "{{ item.vapp }}"
+    vdc: "{{ vcd_vm_deploy_vdc }}"
+    nics:
+      - nic_id: 1
+        network: "{{ item.nic.network }}"
+        ip_allocation_mode: "MANUAL"
+        is_primary: no
+        is_connected: yes
+        adapter_type: "VMXNET3"
+    state: "{{ item.nic.state }}"
+  check_mode: "{{ check_mode }}"
+  when: item.nic is defined
+  loop: "{{ vcd_virtual_machines }}"

@@ -1,0 +1,7 @@
+---
+
+### IMPORTANT!
+### Default variable for idempotence Disk and Network Card resources.
+### If check_mode = false and disk/nic defined, ansible create disk/nic resources
+### Use (false) once then provision VM
+check_mode: true

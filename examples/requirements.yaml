@@ -1,0 +1,4 @@
+---
+roles:
+  - src: git+git@gitlab.alabs.space:devops/ansible/ansible-roles/vmware-vcloud.git
+    version: v1.0.0

@@ -1,0 +1,15 @@
+# Copyright © 2018 VMware, Inc. All Rights Reserved.
+# SPDX-License-Identifier: BSD-2-Clause OR GPL-3.0-only
+---
+galaxy_info:
+  author: Okassov Marat
+  description: Ansible role for provision VMs with VMWare vCD
+  company: Alabs
+
+  license: MIT
+
+  min_ansible_version: 2.9
+
+  galaxy_tags: []
+
+dependencies: []

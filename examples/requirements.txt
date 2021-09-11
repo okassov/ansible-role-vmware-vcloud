@@ -1,0 +1,6 @@
+pyvcloud>=23.0.2
+lxml
+requests
+wheel
+setuptools_rust
+ansible

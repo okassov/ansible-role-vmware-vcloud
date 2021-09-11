@@ -1,0 +1,55 @@
+---
+
+vcd_virtual_machines:
+  - { 
+      vm_name: "example-vm-1",
+      vm_ip: "192.168.1.100",
+      vm_netmask: "/24",
+      vm_gateway: "192.168.1.1",
+      vm_dns: "1.1.1.1",
+      vapp: "test", 
+      state: "present", 
+      power_on: "true", 
+      virtual_cpus: 2
+      cores_per_socket: 2
+      memory: 4096
+      ip_allocation_mode: "MANUAL",
+      network: "test",
+      storage_profile: "",
+      disk: {
+        size: 100, # Size of disk in MB
+        storage_profile: "qc30-ds-hpe-platinum02-policy",
+        controller: lsilogic,
+        state: "present"
+      },
+      nic: {
+        network: "test",
+        state: "present"
+      } 
+    }
+  - { 
+      vm_name: "example-vm-2",
+      vm_ip: "192.168.1.102",
+      vm_netmask: "/24",
+      vm_gateway: "192.168.1.1",
+      vm_dns: "1.1.1.1",
+      vapp: "test", 
+      state: "present", 
+      power_on: "true", 
+      virtual_cpus: 2
+      cores_per_socket: 2
+      memory: 4096
+      ip_allocation_mode: "MANUAL",
+      network: "test",
+      storage_profile: "",
+      disk: {
+        size: 100, # Size of disk in MB
+        storage_profile: "qc30-ds-hpe-platinum02-policy",
+        controller: lsilogic,
+        state: "present"
+      },
+      nic: {
+        network: "test",
+        state: "present"
+      } 
+    }

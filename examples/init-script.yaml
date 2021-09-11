@@ -1,0 +1,27 @@
+---
+
+initial_script: |
+  #!/bin/bash
+  # Maintainer: Marat Okassov
+  # Inital script for configure a Ubuntu Server guest operating system.
+  
+  ### Configure network
+  sudo cat<<EOF > /etc/netplan/00-installer-config.yaml
+  network:
+    version: 2
+    renderer: networkd
+    ethernets:
+      $(ip add | grep 2: | awk '{print$2}' | tr -d ':'):
+        dhcp4: false
+        dhcp6: false
+        addresses:
+          - {{ item.vm_ip }}{{ item.vm_netmask }}
+        gateway4: {{ item.vm_gateway }}
+        nameservers:
+          addresses:
+            - {{ item.vm_dns }}
+            - 8.8.8.8
+  EOF
+  
+  ### Restart network
+  sudo netplan apply
